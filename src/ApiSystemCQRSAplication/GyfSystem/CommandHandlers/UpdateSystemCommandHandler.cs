@@ -54,7 +54,7 @@ namespace ApiSystemCQRSAplication.GyfSystem.CommandHandlers
                 }
                 else
                 {
-                    throw new HandleException(HttpStatusCode.NotImplemented, new { GySistemas = "Error, Sistema no ha sido actualizado!" });                    
+                    throw new HandleException(HttpStatusCode.NotImplemented, new { GySistemas = "Error, Sistema no han sido encontrado, Sistema no ha sido actualizado!" });                    
                 }
             }
 

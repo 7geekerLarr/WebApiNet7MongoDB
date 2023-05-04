@@ -1,9 +1,11 @@
-﻿using ApiSystemCQRSDomain.Models;
+﻿using ApiSystemCQRSAplication.HandleError;
+using ApiSystemCQRSDomain.Models;
 using ApiSystemCQRSInfrastructure.Services;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static ApiSystemCQRSAplication.GyfSystem.Queries.GetAllSystemsQuery;
@@ -23,8 +25,12 @@ namespace ApiSystemCQRSAplication.GyfSystem.QueryHandlers
             
             public async  Task<List<GyfSystemMongoModels>> Handle(GetAllSystems request, CancellationToken cancellationToken)
             {
-                var resultado = await _GyfSystemsRepository.GetAll();
-                return resultado?.OrderBy(x => x.Name).ToList() ?? new List<GyfSystemMongoModels>();
+                var result = await _GyfSystemsRepository.GetAll();
+                if (result == null)
+                {
+                    throw new HandleException(HttpStatusCode.NotFound, new { GySistemas = "No hay sistemas cargados en estos momentos!" });
+                }
+                return result?.OrderBy(x => x.Name).ToList() ?? new List<GyfSystemMongoModels>();
             }
         }
         #endregion

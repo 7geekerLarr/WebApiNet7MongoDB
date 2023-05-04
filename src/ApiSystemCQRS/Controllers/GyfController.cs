@@ -31,9 +31,8 @@ namespace ApiSystemCQRS.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Add(CreateSystemCommand.CreateSystem data)
         {
-            var systemToReturn = await _mediator.Send(data);
-            return Ok();
-           // return CreatedAtRoute("GetOne", new { id = systemToReturn.Id }, systemToReturn);
+            var systemToReturn = await _mediator.Send(data);           
+            return CreatedAtRoute("GetOne", new { id = systemToReturn.IdSystem }, systemToReturn);
         }
         #endregion
         #region [GetOne] 

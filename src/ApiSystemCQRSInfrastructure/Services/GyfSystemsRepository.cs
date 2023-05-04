@@ -52,9 +52,18 @@ namespace ApiSystemCQRSInfrastructure.Services
         #region GetOne
         public async Task<GyfSystemMongoModels?> GetOne(string Id)
         {
-            var filter = Builders<GyfSystemMongoModels>.Filter.Eq("IdSystem", Id);
-            var result = await _collection.FindAsync(filter);
-            return result.FirstOrDefault();
+            try
+            {
+                var filter = Builders<GyfSystemMongoModels>.Filter.Eq("IdSystem", Id);
+                var result = await _collection.FindAsync(filter);
+                return result.FirstOrDefault();
+            }           
+            catch (Exception)
+            {
+
+                throw new NotImplementedException();
+            }
+           
         }
         #endregion
 
@@ -107,17 +116,25 @@ namespace ApiSystemCQRSInfrastructure.Services
         #region Del
         public async Task<bool> Del(string Id)
         {
-            var filter = Builders<GyfSystemMongoModels>.Filter.Eq(s => s.IdSystem, Id);
-            var result = await _collection.DeleteOneAsync(filter);
+            try
+            {
+                var filter = Builders<GyfSystemMongoModels>.Filter.Eq(s => s.IdSystem, Id);
+                var result = await _collection.DeleteOneAsync(filter);
 
-            if (result.DeletedCount > 0)
-            {
-                return true;
+                if (result.DeletedCount > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            catch (Exception)
             {
-                return false;
+                throw new NotImplementedException();
             }
+
         }
         #endregion
     }

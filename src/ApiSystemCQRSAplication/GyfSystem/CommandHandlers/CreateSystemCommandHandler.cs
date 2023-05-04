@@ -30,17 +30,18 @@ namespace ApiSystemCQRSAplication.GyfSystem.CommandHandlers
                 {
                     throw new HandleException(HttpStatusCode.BadRequest, new { GySistemas = "La estructura no es correcta!" });
                 }
-
-
-                //var resultado = await _GyfSystemsRepository.GetAll();
-                //resultado = resultado?.ToList() ?? new List<GyfSystemModels>();
-
-                //var sistema1 = resultado.FirstOrDefault(s => s.Name?.ToUpper() == entity.Name?.ToUpper());
-                //if (sistema1 != null)
-                //{
-                //    throw new HandleException(HttpStatusCode.BadRequest, new { GySistemas = "NombreExiste, Sistema ya existe (Nombre:" + entity.Name + ")" });
-                //}
-
+                if (entity.IdSystem == "0")
+                {
+                    throw new HandleException(HttpStatusCode.BadRequest, new { GySistemas = "La estructura no es correcta!" + entity.IdSystem });
+                }
+                if (entity.IdSystem == null || entity.Name == null)
+                {
+                    throw new HandleException(HttpStatusCode.BadRequest, new { GySistemas = "La estructura no es correcta!"   });               
+                }
+                if (entity.IdSystem == "" || entity.Name == "")
+                {
+                    throw new HandleException(HttpStatusCode.BadRequest, new { GySistemas = "Campos obligatotios:IdSystem y Name, La estructura no es correcta!" });
+                }
                 var result = await _GyfSystemsRepository.Add(entity);
                 if (result)
                 {
